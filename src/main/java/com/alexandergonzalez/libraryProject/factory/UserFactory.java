@@ -1,6 +1,5 @@
 package com.alexandergonzalez.libraryProject.factory;
 
-import com.alexandergonzalez.libraryProject.repositories.user.UserJPARepository;
 import com.alexandergonzalez.libraryProject.services.user.UserJPAService;
 import com.alexandergonzalez.libraryProject.services.user.UserMongoService;
 
