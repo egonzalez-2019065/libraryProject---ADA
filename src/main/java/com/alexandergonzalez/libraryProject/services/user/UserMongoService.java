@@ -34,9 +34,7 @@ public class UserMongoService implements UserService {
 
     @Override
     public UserDto saveUser(UserDto userDto) {
-        Long uniqueId = System.currentTimeMillis();
         UserDocument user = new UserDocument();
-        user.setId(uniqueId);
         user.setName(userDto.getName());
         user.setLastname(userDto.getLastname());
         user.setUsername(userDto.getUsername());
