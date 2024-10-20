@@ -1,7 +1,6 @@
-package com.alexandergonzalez.libraryProject.controllers.user;
+package com.alexandergonzalez.libraryProject.controllers;
 
 import com.alexandergonzalez.libraryProject.dto.user.UserDto;
-import com.alexandergonzalez.libraryProject.factory.FactoryDb;
 import com.alexandergonzalez.libraryProject.factory.UserFactory;
 import com.alexandergonzalez.libraryProject.factory.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
