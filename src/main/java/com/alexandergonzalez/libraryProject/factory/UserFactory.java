@@ -2,7 +2,9 @@ package com.alexandergonzalez.libraryProject.factory;
 
 import com.alexandergonzalez.libraryProject.services.user.UserJPAService;
 import com.alexandergonzalez.libraryProject.services.user.UserMongoService;
+import org.springframework.stereotype.Component;
 
+@Component
 public class UserFactory {
 
     private final UserJPAService userJPAService;
