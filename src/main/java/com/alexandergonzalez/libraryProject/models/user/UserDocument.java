@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 @Document(collection = "users")
 public class UserDocument {
     @Id
-    private long id;
+    private String id;
 
     private String name;
     private String lastname;
