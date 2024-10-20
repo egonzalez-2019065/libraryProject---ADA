@@ -18,14 +18,13 @@ public class BookDto {
     private String isbn;
     private boolean available;
 
-    public BookDto(String title, String author, String description, String category, String isbn, boolean available, Long idEntity) {
+    public BookDto(Long idEntity, String title, String author, String description, String category, boolean available) {
+        this.idEntity = idEntity;
         this.title = title;
         this.author = author;
         this.description = description;
         this.category = category;
-        this.isbn = isbn;
         this.available = available;
-        this.idEntity = idEntity;
     }
 
     public BookDto(String idDocument, String title, String author, String description, String category, boolean available) {
