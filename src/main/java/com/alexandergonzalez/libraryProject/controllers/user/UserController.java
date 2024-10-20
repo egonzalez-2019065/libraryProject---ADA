@@ -20,18 +20,18 @@ import java.util.Map;
 public class UserController {
 
     private final UserFactory userFactory;
-    private final String databaseType = "jpa";
 
+    @Autowired
     public UserController(UserFactory userFactory) {
         this.userFactory = userFactory;
     }
 
-
     @PostMapping
     public ResponseEntity<Object> saveUser(@RequestBody UserDto userDto) {
-        UserService userService = userFactory.getUserService(databaseType);
+        UserService userService = userFactory.getUserService();
         Map<String, Object> response = new HashMap<>();
         UserDto savedUser = userService.saveUser(userDto);
+        System.out.println(savedUser);
         response.put("Usuario guardado correctamente", savedUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
