@@ -64,12 +64,34 @@ public class BookMongoService implements BookService {
     }
 
     @Override
+    public BookDto updateBookJPA(Long id, BookDto bookDto) {
+        return null;
+    }
+
+    @Override
     public BookDto findByIdDto(String id) {
        BookDocument bookFoundDto = findById(id);
        if(bookFoundDto != null){
            return this.toDto(bookFoundDto);
        }
        return null;
+    }
+
+    @Override
+    public BookDto updateBook(String id, BookDto bookDto) {
+        BookDocument bookFound = findById(id);
+        if(bookFound != null){
+
+            bookFound.setTitle(bookDto.getTitle());
+            bookFound.setDescription(bookDto.getDescription());
+            bookFound.setAuthor(bookDto.getAuthor());
+            bookFound.setCategory(bookDto.getCategory());
+            bookFound.setIsbn(bookDto.getIsbn());
+            bookFound.setAvailable(bookDto.isAvailable());
+            mongoRepository.save(bookFound);
+            return this.toDto(bookFound);
+        }
+        return null;
     }
 
 }
