@@ -1,8 +1,7 @@
 package com.alexandergonzalez.libraryProject.factory.bookFactory;
 
-import com.alexandergonzalez.libraryProject.repositories.book.BookMongoRepository;
-import com.alexandergonzalez.libraryProject.services.user.BookJPAService;
-import com.alexandergonzalez.libraryProject.services.user.BookMongoService;
+import com.alexandergonzalez.libraryProject.services.book.BookJPAService;
+import com.alexandergonzalez.libraryProject.services.book.BookMongoService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
