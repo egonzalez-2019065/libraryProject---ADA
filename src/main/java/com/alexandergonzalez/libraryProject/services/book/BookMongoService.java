@@ -1,11 +1,13 @@
-package com.alexandergonzalez.libraryProject.services.user;
+package com.alexandergonzalez.libraryProject.services.book;
 
 import com.alexandergonzalez.libraryProject.dto.book.BookDto;
 import com.alexandergonzalez.libraryProject.factory.bookFactory.BookService;
 import com.alexandergonzalez.libraryProject.models.book.BookDocument;
+import com.alexandergonzalez.libraryProject.models.book.BookEntity;
 import com.alexandergonzalez.libraryProject.repositories.book.BookMongoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 
 @Service("mongoBookService")
@@ -41,4 +43,33 @@ public class BookMongoService implements BookService {
         mongoRepository.save(book);
         return this.toDto(book);
     }
+
+    @Override
+    public BookDocument findById(String id) {
+        BookDocument bookFound = mongoRepository.findById(id).orElse(null);
+        if(bookFound != null){
+           return bookFound;
+        }
+        return null;
+    }
+
+    @Override
+    public BookEntity findByIdJPA(Long id) {
+        return null;
+    }
+
+    @Override
+    public BookDto findByIdDtoJPA(Long id) {
+        return null;
+    }
+
+    @Override
+    public BookDto findByIdDto(String id) {
+       BookDocument bookFoundDto = findById(id);
+       if(bookFoundDto != null){
+           return this.toDto(bookFoundDto);
+       }
+       return null;
+    }
+
 }

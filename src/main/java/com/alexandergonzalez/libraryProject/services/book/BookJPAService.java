@@ -1,4 +1,4 @@
-package com.alexandergonzalez.libraryProject.services.user;
+package com.alexandergonzalez.libraryProject.services.book;
 
 import com.alexandergonzalez.libraryProject.dto.book.BookDto;
 import com.alexandergonzalez.libraryProject.factory.bookFactory.BookService;
@@ -43,4 +43,35 @@ public class BookJPAService implements BookService {
         bookJPARepository.save(book);
         return this.toDto(book);
     }
+
+    @Override
+    public BookDocument findById(String id) {
+        return null;
+    }
+
+    @Override
+    public BookDto findByIdDto(String id) {
+        return null;
+    }
+
+    @Override
+    public BookEntity findByIdJPA(Long id) {
+       BookEntity bookFound = bookJPARepository.findById(id).orElse(null);
+       if(bookFound != null){
+           return bookFound;
+       }
+       return null;
+    }
+
+    @Override
+    public BookDto findByIdDtoJPA(Long id) {
+        BookEntity bookFound = findByIdJPA(id);
+        if(bookFound != null){
+            return this.toDto(bookFound);
+        }
+        return null;
+    }
+
+
+
 }
