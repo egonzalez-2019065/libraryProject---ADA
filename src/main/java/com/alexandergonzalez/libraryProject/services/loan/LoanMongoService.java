@@ -58,8 +58,13 @@ public class LoanMongoService implements LoanService {
         UserDocument userDto = userMongoService.findById(loanDto.getUserId());
         BookDocument bookDto = bookMongoService.findById(loanDto.getBookId());
 
+        bookDto.setAvailable(false);
+        BookDto bookToDto = bookMongoService.toDto(bookDto);
+        bookMongoService.updateBook(bookToDto.getIdDocument(), bookToDto);
+
         loanDocument.setUserDocument(userDto);
         loanDocument.setBookDocument(bookDto);
+
         loanMongoRepository.save(loanDocument);
         return this.toDto(loanDocument);
     }
