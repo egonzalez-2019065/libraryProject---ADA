@@ -55,6 +55,11 @@ public class BookJPAService implements BookService {
     }
 
     @Override
+    public BookDto updateBook(String id, BookDto bookDto) {
+        return null;
+    }
+
+    @Override
     public BookEntity findByIdJPA(Long id) {
        BookEntity bookFound = bookJPARepository.findById(id).orElse(null);
        if(bookFound != null){
@@ -72,6 +77,20 @@ public class BookJPAService implements BookService {
         return null;
     }
 
-
-
+    @Override
+    public BookDto updateBookJPA(Long id, BookDto bookDto) {
+        BookEntity bookFound = findByIdJPA(id);
+        if(bookFound != null){
+            BookEntity book = new BookEntity();
+            book.setTitle(bookDto.getTitle());
+            book.setDescription(bookDto.getDescription());
+            book.setAuthor(bookDto.getAuthor());
+            book.setCategory(bookDto.getCategory());
+            book.setIsbn(bookDto.getIsbn());
+            book.setAvailable(bookDto.isAvailable());
+            bookJPARepository.save(book);
+            return this.toDto(book);
+        }
+        return null;
+    }
 }
