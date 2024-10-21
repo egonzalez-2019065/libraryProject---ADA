@@ -1,5 +1,6 @@
 package com.alexandergonzalez.libraryProject.services.loan;
 
+import com.alexandergonzalez.libraryProject.dto.book.BookDto;
 import com.alexandergonzalez.libraryProject.dto.loan.LoanDto;
 import com.alexandergonzalez.libraryProject.factory.loanFactory.LoanService;
 import com.alexandergonzalez.libraryProject.models.book.BookEntity;
@@ -54,6 +55,11 @@ public class LoanJPAService implements LoanService {
         LoanEntity loanEntity = new LoanEntity();
         UserEntity userDto = userJPAService.findByIdJPA(loanDto.getUserIdJPA());
         BookEntity bookDto = bookJPAService.findByIdJPA(loanDto.getBookIdJPA());
+
+        bookDto.setAvailable(false);
+        BookDto bookToDto = bookJPAService.toDto(bookDto);
+
+        bookJPAService.updateBookJPA(bookToDto.getIdEntity(), bookToDto);
 
         loanEntity.setUserEntity(userDto);
         loanEntity.setBookEntity(bookDto);
