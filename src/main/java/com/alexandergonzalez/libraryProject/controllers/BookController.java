@@ -24,7 +24,6 @@ public class BookController {
 
     @PostMapping
     public Object saveBook(@RequestBody BookDto bookDto){
-        System.out.println(bookDto);
         BookService bookService = bookFactory.getBookService();
         HashMap<String, Object> response = new HashMap<>();
         BookDto savedBook = bookService.saveBook(bookDto);
