@@ -81,15 +81,14 @@ public class BookJPAService implements BookService {
     public BookDto updateBookJPA(Long id, BookDto bookDto) {
         BookEntity bookFound = findByIdJPA(id);
         if(bookFound != null){
-            BookEntity book = new BookEntity();
-            book.setTitle(bookDto.getTitle());
-            book.setDescription(bookDto.getDescription());
-            book.setAuthor(bookDto.getAuthor());
-            book.setCategory(bookDto.getCategory());
-            book.setIsbn(bookDto.getIsbn());
-            book.setAvailable(bookDto.isAvailable());
-            bookJPARepository.save(book);
-            return this.toDto(book);
+            bookFound.setTitle(bookDto.getTitle());
+            bookFound.setDescription(bookDto.getDescription());
+            bookFound.setAuthor(bookDto.getAuthor());
+            bookFound.setCategory(bookDto.getCategory());
+            //bookFound.setIsbn(bookDto.getIsbn());
+            bookFound.setAvailable(bookDto.isAvailable());
+            bookJPARepository.save(bookFound);
+            return this.toDto(bookFound);
         }
         return null;
     }
