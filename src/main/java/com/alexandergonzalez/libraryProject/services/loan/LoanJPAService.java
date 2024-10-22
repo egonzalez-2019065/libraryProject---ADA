@@ -88,7 +88,7 @@ public class LoanJPAService implements LoanService {
         // Actualizamos el estado del libro a no disponible
         bookDto.setAvailable(false);
         BookDto bookToDto = bookJPAService.toDto(bookDto);
-        bookJPAService.updateBookJPA(bookToDto.getIdEntity(), bookToDto);
+        bookJPAService.updateBook(String.valueOf(bookToDto.getIdEntity()), bookToDto);
 
         // Setteamos los valores al nuevo préstamo
         loanEntity.setUserEntity(userDto);
@@ -159,7 +159,7 @@ public class LoanJPAService implements LoanService {
 
                 // Guardamos los datos del libro ya sea quede disponible o no
                 BookDto bookToDto = bookJPAService.toDto(foundBook);
-                bookJPAService.updateBookJPA(bookToDto.getIdEntity(), bookToDto);
+                bookJPAService.updateBook(String.valueOf(bookToDto.getIdEntity()), bookToDto);
 
                 // Retornamos el DTO del préstamo
                 return this.toDto(loanFound);
