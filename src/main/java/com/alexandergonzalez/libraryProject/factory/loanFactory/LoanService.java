@@ -8,4 +8,6 @@ public interface LoanService {
     LoanDto saveLoan(LoanDto loanDto);
     List<LoanDto> getLoans();
     LoanDto returnBook(String bookId);
+    List<LoanDto> getLoansByUserId(String id);
+
 }
