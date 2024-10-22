@@ -19,25 +19,29 @@ public class BookingDto {
     private Long userIdJPA;
     private Long bookIdJPA;
     private LocalDateTime bookingDate;
+    private boolean status;
 
-    public BookingDto(String id, String userId, String bookId, LocalDateTime bookingDate) {
+    public BookingDto(String id, String userId, String bookId, LocalDateTime bookingDate, boolean status) {
         this.id = id;
         this.userId = userId;
         this.bookId = bookId;
         this.bookingDate = bookingDate;
+        this.status = status;
     }
 
-    public BookingDto(Long idJPA, Long userIdJPA, Long bookIdJPA, LocalDateTime bookingDate) {
+    public BookingDto(Long idJPA, Long userIdJPA, Long bookIdJPA, LocalDateTime bookingDate, boolean status) {
         this.idJPA = idJPA;
         this.userIdJPA = userIdJPA;
         this.bookIdJPA = bookIdJPA;
         this.bookingDate = bookingDate;
+        this.status = status;
     }
 
-    public BookingDto(Long idJPA, String userId, String bookId, LocalDateTime bookingDate) {
+    public BookingDto(Long idJPA, String userId, String bookId, LocalDateTime bookingDate, boolean status) {
         this.idJPA = idJPA;
         this.userId = userId;
         this.bookId = bookId;
         this.bookingDate = bookingDate;
+        this.status = status;
     }
 }
