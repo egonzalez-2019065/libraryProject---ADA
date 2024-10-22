@@ -6,12 +6,11 @@ import com.alexandergonzalez.libraryProject.factory.bookingFactory.BookingFactor
 import com.alexandergonzalez.libraryProject.factory.bookingFactory.BookingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/v1/booking")
@@ -30,10 +29,32 @@ public class BookingController {
         HashMap<String, Object> response = new HashMap<>();
         BookingDto bookingToSave = bookingService.saveBooking(bookingDto);
         if(bookingToSave != null){
-            response.put("Reserva creada creado correctamente", bookingToSave);
+            response.put("Reserva creada correctamente", bookingToSave);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }
             response.put("message", "Reserva no realizada, el libro ya se encuentra reservado por ti o está disponible");
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+    @GetMapping()
+    public ResponseEntity<Object> getAllBookings() {
+        BookingService bookingService = bookingFactory.getBookingService();
+        List<BookingDto> bookingDto = bookingService.getLoans();
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("Todos los bookings encontrados", bookingDto);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Object> getBookingsByUser(@PathVariable("id") String userId) {
+        BookingService bookingService = bookingFactory.getBookingService();
+        HashMap<String, Object> response = new HashMap<>();
+
+        List<BookingDto> returnedBookings = bookingService.findByUserId(userId);
+        response.put("Bookings encontrados para este usuario", returnedBookings);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
 }
