@@ -7,4 +7,5 @@ import java.util.List;
 public interface LoanService {
     LoanDto saveLoan(LoanDto loanDto);
     List<LoanDto> getLoans();
+    LoanDto returnBook(String bookId);
 }
