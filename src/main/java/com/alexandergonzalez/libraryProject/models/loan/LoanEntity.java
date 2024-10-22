@@ -32,6 +32,8 @@ public class LoanEntity {
 
     private LocalDateTime returnDate;
 
+    private Boolean status = true;
+
     public LoanEntity() {
         this.loanedAt = LocalDateTime.now();
     }
