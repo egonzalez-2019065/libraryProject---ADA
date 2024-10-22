@@ -30,7 +30,7 @@ public class BookingEntity {
     @CreatedDate
     private LocalDateTime bookingAt;
 
-    private LocalDateTime returnDate;
+    private Boolean status = true;
 
     public BookingEntity() {
         this.bookingAt = LocalDateTime.now();

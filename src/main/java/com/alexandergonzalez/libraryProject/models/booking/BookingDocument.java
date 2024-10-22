@@ -27,9 +27,10 @@ public class BookingDocument {
     @CreatedDate
     private LocalDateTime bookingDate;
 
-    private LocalDateTime firstNotification;
+    private boolean status;
 
     public BookingDocument() {
         this.bookingDate = LocalDateTime.now();
+        this.status = true;
     }
 }
