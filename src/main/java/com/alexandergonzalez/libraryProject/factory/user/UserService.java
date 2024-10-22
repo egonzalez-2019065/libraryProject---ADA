@@ -9,10 +9,6 @@ public interface UserService {
     UserDto saveUser(UserDto userDto);
     UserDto findByIdDto(String id);
     UserDocument findById(String id);
-    //JPA
     UserEntity findByIdJPA(Long id);
-    UserDto findByIdDtoJPA(Long id);
-
-
 
 }
