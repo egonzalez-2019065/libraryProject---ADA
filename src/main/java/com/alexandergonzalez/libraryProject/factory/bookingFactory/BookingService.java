@@ -7,7 +7,7 @@ import java.util.List;
 public interface BookingService {
 
     BookingDto saveBooking(BookingDto bookingDto);
-    List<BookingDto> getLoans();
+    List<BookingDto> getBookings();
     List<BookingDto> findByUserId(String id);
-
+    Boolean deleteBooking(String id);
 }
