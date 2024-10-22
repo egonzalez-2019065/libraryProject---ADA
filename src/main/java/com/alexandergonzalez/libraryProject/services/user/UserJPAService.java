@@ -1,7 +1,7 @@
 package com.alexandergonzalez.libraryProject.services.user;
 
 import com.alexandergonzalez.libraryProject.dto.user.UserDto;
-import com.alexandergonzalez.libraryProject.factory.UserService;
+import com.alexandergonzalez.libraryProject.factory.user.UserService;
 import com.alexandergonzalez.libraryProject.models.user.UserDocument;
 import com.alexandergonzalez.libraryProject.models.user.UserEntity;
 import com.alexandergonzalez.libraryProject.repositories.user.UserJPARepository;

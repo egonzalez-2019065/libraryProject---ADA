@@ -1,8 +1,7 @@
-package com.alexandergonzalez.libraryProject.factory;
+package com.alexandergonzalez.libraryProject.factory.user;
 
 import com.alexandergonzalez.libraryProject.services.user.UserJPAService;
 import com.alexandergonzalez.libraryProject.services.user.UserMongoService;
-import org.flywaydb.core.internal.database.DatabaseType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

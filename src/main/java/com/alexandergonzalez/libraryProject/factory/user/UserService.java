@@ -1,4 +1,4 @@
-package com.alexandergonzalez.libraryProject.factory;
+package com.alexandergonzalez.libraryProject.factory.user;
 
 import com.alexandergonzalez.libraryProject.dto.user.UserDto;
 import com.alexandergonzalez.libraryProject.models.user.UserDocument;

@@ -1,8 +1,8 @@
 package com.alexandergonzalez.libraryProject.controllers;
 
 import com.alexandergonzalez.libraryProject.dto.user.UserDto;
-import com.alexandergonzalez.libraryProject.factory.UserFactory;
-import com.alexandergonzalez.libraryProject.factory.UserService;
+import com.alexandergonzalez.libraryProject.factory.user.UserFactory;
+import com.alexandergonzalez.libraryProject.factory.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
