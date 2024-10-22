@@ -45,12 +45,6 @@ public class UserJPAService implements UserService {
     }
 
     @Override
-    public UserDto findByIdDto(String id) {
-        return null;
-    }
-
-
-    @Override
     public UserEntity findByIdJPA(Long id) {
         UserEntity userFound = userJPARepository.findById(id).orElse(null);
         if(userFound != null){
@@ -59,10 +53,9 @@ public class UserJPAService implements UserService {
         return null;
     }
 
-
     @Override
-    public UserDto findByIdDtoJPA(Long id) {
-        UserEntity userDtoFound = findByIdJPA(id);
+    public UserDto findByIdDto(String id) {
+        UserEntity userDtoFound = findByIdJPA(Long.valueOf(id));
         if(userDtoFound != null){
             return this.toDto(userDtoFound);
         }
