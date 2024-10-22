@@ -13,4 +13,5 @@ import java.util.Optional;
 public interface BookingMongoRepository extends MongoRepository<BookingDocument, String> {
         Optional<BookingDocument> findByUserDocumentAndBookDocumentAndStatusTrue(String userDocument, String bookDocument);
         List<BookingDocument> findByBookDocumentAndStatusTrue(String bookId);
+        List<BookingDocument> findByUserDocumentAndStatusTrue(String userId);
 }
