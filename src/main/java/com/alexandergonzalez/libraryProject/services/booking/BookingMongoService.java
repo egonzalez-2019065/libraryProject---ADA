@@ -30,8 +30,7 @@ public class BookingMongoService implements BookingService {
                 bookingDocument.getId(),
                 bookingDocument.getUserDocument().getId(),
                 bookingDocument.getBookDocument().getId(),
-                bookingDocument.getBookingDate(),
-                bookingDocument.getFirstNotification()
+                bookingDocument.getBookingDate()
         );
     }
 
@@ -42,9 +41,8 @@ public class BookingMongoService implements BookingService {
         BookDocument bookDto = bookMongoService.findById(bookingDto.getBookId());
         System.out.println(bookDto);
 
-        if(bookDto.isAvailable()) {
-            BookingDocument existingBooking = bookingMongoRepository.findByUserDocumentAndBookDocument(userDto.getId(), bookDto.getId()).orElse(null);
-            System.out.println(existingBooking);
+        if(!bookDto.isAvailable()) {
+            BookingDocument existingBooking = bookingMongoRepository.findByUserDocumentAndBookDocumentAndStatusTrue(userDto.getId(), bookDto.getId()).orElse(null);
             if(existingBooking == null){
                 bookToSave.setUserDocument(userDto);
                 bookToSave.setBookDocument(bookDto);
