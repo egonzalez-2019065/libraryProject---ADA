@@ -53,16 +53,6 @@ public class UserMongoService implements UserService {
     }
 
     @Override
-    public UserEntity findByIdJPA(Long id) {
-        return null;
-    }
-
-    @Override
-    public UserDto findByIdDtoJPA(Long id) {
-        return null;
-    }
-
-    @Override
     public UserDto findByIdDto(String id){
         UserDocument userFound = findById(id);
         if(userFound != null){
@@ -70,4 +60,10 @@ public class UserMongoService implements UserService {
         }
         return null;
     }
+
+    @Override
+    public UserEntity findByIdJPA(Long id) {
+        return null;
+    }
+
 }
