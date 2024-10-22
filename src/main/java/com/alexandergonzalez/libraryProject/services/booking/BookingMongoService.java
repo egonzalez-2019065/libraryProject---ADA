@@ -86,17 +86,41 @@ public class BookingMongoService implements BookingService {
         return null;
     }
 
+    // Método que lista todas las reservas
     @Override
-    public List<BookingDto> getLoans() {
+    public List<BookingDto> getBookings() {
         return bookingMongoRepository.findAll().stream()
                 .map(this::toDtoGet)
                 .toList();
     }
 
+    // Método que retorna las reservas por usuario
     @Override
     public List<BookingDto> findByUserId(String id) {
         return bookingMongoRepository.findByUserDocumentAndStatusTrue(id).stream()
                 .map(this::toDtoGet)
                 .toList();
+    }
+
+    // Método que permite desactivar reservas
+    @Override
+    public Boolean deleteBooking(String id) {
+        // Buscamos a la reserva que exista y esté activa
+        BookingDocument bookingFound = bookingMongoRepository.findByIdAndStatusTrue(id).orElse(null);
+
+        // Verificamos que los datos sean correctos
+        if(bookingFound != null){
+
+            // Settea el valor a inactivo
+            bookingFound.setStatus(false);
+
+            // Guarda los cambios
+            bookingMongoRepository.save(bookingFound);
+
+            // Retorna true para la respuesta
+            return true;
+        }
+        // Retorna false para la respuesta
+        return false;
     }
 }
