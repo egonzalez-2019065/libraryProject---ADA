@@ -41,7 +41,7 @@ public class LoanController {
         List<LoanDto> loanDto = loanService.getLoans();
 
         Map<String, Object> response = new HashMap<>();
-        response.put("Préstamos encontrados", loanDto);
+        response.put("Todos los préstamos encontrados", loanDto);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -58,6 +58,15 @@ public class LoanController {
             response.put("Error", "No se encontró el préstamo para este libro.");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<Object> returnLoanByUser(@PathVariable("id") String userId){
+        LoanService loanService = loanFactory.getLoanService();
+        HashMap<String, Object> response = new HashMap<>();
+        List<LoanDto> returnedLoan = loanService.getLoansByUserId(userId);
+        response.put("Préstamos encontrados para este usuario", returnedLoan);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 
