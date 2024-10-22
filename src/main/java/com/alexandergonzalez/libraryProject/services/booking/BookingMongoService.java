@@ -11,6 +11,8 @@ import com.alexandergonzalez.libraryProject.services.user.UserMongoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("mongoBookingService")
 public class BookingMongoService implements BookingService {
 
@@ -25,32 +27,76 @@ public class BookingMongoService implements BookingService {
         this.bookMongoService = bookMongoService;
     }
 
+    // Dto para guardar una nueva reserva
     private BookingDto toDto(BookingDocument bookingDocument){
         return new BookingDto(
                 bookingDocument.getId(),
                 bookingDocument.getUserDocument().getId(),
                 bookingDocument.getBookDocument().getId(),
-                bookingDocument.getBookingDate()
+                bookingDocument.getBookingDate(),
+                bookingDocument.isStatus()
         );
     }
 
+    // Dto para listar las reservas
+    private BookingDto toDtoGet(BookingDocument bookingDocument){
+        return new BookingDto(
+                bookingDocument.getId(),
+                bookingDocument.getUserDocument().getName(),
+                bookingDocument.getBookDocument().getTitle(),
+                bookingDocument.getBookingDate(),
+                bookingDocument.isStatus()
+        );
+    }
+
+    // Método para guardar una nueva reserva
     @Override
     public BookingDto saveBooking(BookingDto bookingDto) {
-        BookingDocument bookToSave = new BookingDocument();
+        BookingDocument bookingToSave = new BookingDocument();
+
+        // Buscamos las llaves foraneas
         UserDocument userDto = userMongoService.findById(bookingDto.getUserId());
         BookDocument bookDto = bookMongoService.findById(bookingDto.getBookId());
-        System.out.println(bookDto);
 
+        // Verificamos que las llaves fóraneas no sean nulas
+        if (userDto == null || bookDto == null) {
+            return null;
+        }
+
+        System.out.println(bookDto);
+        // Verificamos que el libro no esté disponible
         if(!bookDto.isAvailable()) {
+
+            // Verificamos que no haya una reserva para este libro con este usuario
             BookingDocument existingBooking = bookingMongoRepository.findByUserDocumentAndBookDocumentAndStatusTrue(userDto.getId(), bookDto.getId()).orElse(null);
             if(existingBooking == null){
-                bookToSave.setUserDocument(userDto);
-                bookToSave.setBookDocument(bookDto);
-                bookingMongoRepository.save(bookToSave);
-                return this.toDto(bookToSave);
+
+                // Setteamos los datos
+                bookingToSave.setUserDocument(userDto);
+                bookingToSave.setBookDocument(bookDto);
+
+                // Guardamos la nueva reserva
+                bookingMongoRepository.save(bookingToSave);
+
+                // Devolvemos la nueva reserva
+                return this.toDto(bookingToSave);
             }
             return null;
         }
         return null;
+    }
+
+    @Override
+    public List<BookingDto> getLoans() {
+        return bookingMongoRepository.findAll().stream()
+                .map(this::toDtoGet)
+                .toList();
+    }
+
+    @Override
+    public List<BookingDto> findByUserId(String id) {
+        return bookingMongoRepository.findByUserDocumentAndStatusTrue(id).stream()
+                .map(this::toDtoGet)
+                .toList();
     }
 }
