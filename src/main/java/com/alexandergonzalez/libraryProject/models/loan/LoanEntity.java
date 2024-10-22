@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@NoArgsConstructor
 @Table(name = "loans")
 public class LoanEntity {
 
@@ -33,8 +32,7 @@ public class LoanEntity {
 
     private LocalDateTime returnDate;
 
-
-
-
-
+    public LoanEntity() {
+        this.loanedAt = LocalDateTime.now();
+    }
 }
