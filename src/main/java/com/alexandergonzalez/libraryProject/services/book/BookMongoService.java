@@ -86,7 +86,7 @@ public class BookMongoService implements BookService {
             bookFound.setDescription(bookDto.getDescription());
             bookFound.setAuthor(bookDto.getAuthor());
             bookFound.setCategory(bookDto.getCategory());
-            bookFound.setIsbn(bookDto.getIsbn());
+            //bookFound.setIsbn(bookDto.getIsbn());
             bookFound.setAvailable(bookDto.isAvailable());
             mongoRepository.save(bookFound);
             return this.toDto(bookFound);
