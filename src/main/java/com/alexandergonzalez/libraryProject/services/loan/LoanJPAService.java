@@ -35,6 +35,7 @@ public class LoanJPAService implements LoanService {
         this.bookJPAService = bookJPAService;
     }
 
+    // Dto para guardar los nuevos préstamos
     private LoanDto toDto(LoanEntity loanEntity){
         return new LoanDto(
                 loanEntity.getId(),
@@ -45,7 +46,7 @@ public class LoanJPAService implements LoanService {
         );
     }
 
-
+    // Dto para obtener los datos (nombres no id's)
     private LoanDto toDtoGet(LoanEntity loanEntity){
         return new LoanDto(
                 loanEntity.getId(),
@@ -56,42 +57,49 @@ public class LoanJPAService implements LoanService {
         );
     }
 
+
+    // Método para guardar una nuevo prestamo
     @Override
     public LoanDto saveLoan(LoanDto loanDto) {
         LoanEntity loanEntity = new LoanEntity();
+
+        // Traemos los llaves fóraneas
         UserEntity userDto = userJPAService.findByIdJPA(loanDto.getUserIdJPA());
         BookEntity bookDto = bookJPAService.findByIdJPA(loanDto.getBookIdJPA());
 
-        // Verificar si el usuario o el libro existen
+        // Verificamos que las llaves fóraneas no sean nulas
         if (userDto == null || bookDto == null) {
-            return null; // Retornar null si el usuario o el libro no existen
+            return null;
         }
 
-        // Verificar si el libro está disponible
+        // Verificamos que el libro esté disponible
         if (!bookDto.isAvailable()) {
             return null; // Retornar null si el libro no está disponible
         }
 
-        // Verificar si ya existe un préstamo activo para el usuario y el libro
+        // Verificamos que no se haya realizado antes el mismo prestamo
         LoanEntity existingLoan = loanJPARepository.findByUserEntity_IdAndBookEntity_IdAndStatusTrue(userDto.getId(), bookDto.getId()).orElse(null);
         if (existingLoan != null) {
-            return null; // Retornar null si ya existe un préstamo activo
+            return null;
         }
 
-        // Marcar el libro como no disponible
+        // Actualizamos el estado del libro a no disponible
         bookDto.setAvailable(false);
         BookDto bookToDto = bookJPAService.toDto(bookDto);
         bookJPAService.updateBookJPA(bookToDto.getIdEntity(), bookToDto);
 
-        // Configurar los detalles del nuevo préstamo
+        // Setteamos los valores al nuevo préstamo
         loanEntity.setUserEntity(userDto);
         loanEntity.setBookEntity(bookDto);
 
-        // Guardar el nuevo préstamo
+        // Guardamos el nuevo préstamo
         loanJPARepository.save(loanEntity);
-        return this.toDto(loanEntity); // Retornar el DTO del préstamo guardado
+
+        // Devolvemos el dto para guardar el préstamo
+        return this.toDto(loanEntity);
     }
 
+    // Método para listar los préstamos realizados
     @Override
     public List<LoanDto> getLoans(){
         return loanJPARepository.findAll().stream()
@@ -99,21 +107,26 @@ public class LoanJPAService implements LoanService {
                 .toList();
     }
 
+    // Método para devolver el un libro prestado
 
     @Override
     public LoanDto returnBook(String loanId) {
+        // Buscamos el prestamo
         LoanEntity loanFound = loanJPARepository.findById(Long.valueOf(loanId)).orElse(null);
 
+        // Verficamos que si exista el prestamo
         if (loanFound != null) {
+            // Buscamos el libro que será devuelto
             BookEntity foundBook = bookJPAService.findByIdJPA(loanFound.getBookEntity().getId());
 
+            // Verificamos que el libro si exista
             if (foundBook != null) {
-                // Establecer la fecha de retorno y cambiar el estado del préstamo a falso
+                // Setteamos los valores para marcar que el libro ha sido devuelto
                 loanFound.setReturnDate(LocalDateTime.now());
                 loanFound.setStatus(false);
                 loanJPARepository.save(loanFound);
 
-                // Marcar el libro como disponible
+                // Setteamos los valores para que el libro quede disponible
                 foundBook.setAvailable(true);
 
                 // Verificar si hay reservas para este libro
@@ -137,20 +150,30 @@ public class LoanJPAService implements LoanService {
                         firstReservation.setStatus(false); // Marcar reserva como inactiva
                         bookingJPARepository.save(firstReservation);
 
-                        // Nuevamente setear el estado del libro a no disponible
+                        // Nuevamente setteamos los valores para que el libro no quede disponible
                         foundBook.setAvailable(false);
                     }
                 }
 
-                // Guardar los datos del libro
+                // Guardamos los datos del libro ya sea quede disponible o no
                 BookDto bookToDto = bookJPAService.toDto(foundBook);
                 bookJPAService.updateBookJPA(bookToDto.getIdEntity(), bookToDto);
 
-                // Retornar el DTO del préstamo
+                // Retornamos el DTO del préstamo
                 return this.toDto(loanFound);
             }
             return null;
         }
         return null;
+    }
+
+
+    // Traemos los prestamos para cada usuario
+    @Override
+    public List<LoanDto> getLoansByUserId(String id) {
+        List<LoanEntity> loans = loanJPARepository.findByUserEntity_IdAndStatusTrue(Long.valueOf(id));
+        return loans.stream()
+                .map(this::toDtoGet)
+                .toList();
     }
 }
