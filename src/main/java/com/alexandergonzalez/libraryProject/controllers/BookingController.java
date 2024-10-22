@@ -34,6 +34,6 @@ public class BookingController {
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         }
             response.put("message", "Reserva no realizada, el libro ya se encuentra reservado por ti o está disponible");
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
