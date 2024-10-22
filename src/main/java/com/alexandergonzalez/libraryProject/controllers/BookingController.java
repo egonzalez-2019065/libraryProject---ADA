@@ -39,7 +39,7 @@ public class BookingController {
     @GetMapping()
     public ResponseEntity<Object> getAllBookings() {
         BookingService bookingService = bookingFactory.getBookingService();
-        List<BookingDto> bookingDto = bookingService.getLoans();
+        List<BookingDto> bookingDto = bookingService.getBookings();
 
         Map<String, Object> response = new HashMap<>();
         response.put("Todos los bookings encontrados", bookingDto);
@@ -55,6 +55,21 @@ public class BookingController {
         response.put("Bookings encontrados para este usuario", returnedBookings);
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> quitBooking(@PathVariable("id") String id){
+        BookingService bookingService = bookingFactory.getBookingService();
+        HashMap<String, Object> response = new HashMap<>();
+
+       Boolean bookingToDelete = bookingService.deleteBooking(id);
+       if(bookingToDelete){
+           response.put("message", "La reserva fue quitada");
+           return ResponseEntity.status(HttpStatus.OK).body(response);
+       }
+        response.put("message", "No se pudo quitar la reserva, verifica que los datos son correctos");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+
     }
 
 }
