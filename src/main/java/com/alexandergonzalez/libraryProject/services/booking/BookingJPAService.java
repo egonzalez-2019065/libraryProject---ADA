@@ -29,8 +29,7 @@ public class BookingJPAService implements BookingService {
                 booking.getId(),
                 booking.getUserEntity().getId(),
                 booking.getBookEntity().getId(),
-                booking.getBookingAt(),
-                booking.getReturnDate()
+                booking.getBookingAt()
         );
     }
 
@@ -40,8 +39,8 @@ public class BookingJPAService implements BookingService {
         UserEntity user = userJPAService.findByIdJPA(bookingDto.getUserIdJPA());
         BookEntity book = bookJPAService.findByIdJPA(bookingDto.getBookIdJPA());
 
-        if (book.isAvailable()) {
-            BookingEntity existingBooking = bookingJPARepository.findByUserEntity_IdAndBookEntity_Id(user.getId(), book.getId()).orElse(null);
+        if (!book.isAvailable()) {
+            BookingEntity existingBooking = bookingJPARepository.findByUserEntity_IdAndBookEntity_IdAndStatusTrue(user.getId(), book.getId()).orElse(null);
 
             if (existingBooking == null) {
                 bookingToSave.setUserEntity(user);
