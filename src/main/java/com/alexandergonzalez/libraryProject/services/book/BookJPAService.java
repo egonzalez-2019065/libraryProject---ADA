@@ -8,6 +8,8 @@ import com.alexandergonzalez.libraryProject.repositories.book.BookJPARepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service("jpaBookService")
 public class BookJPAService implements BookService {
@@ -50,27 +52,17 @@ public class BookJPAService implements BookService {
     }
 
     @Override
-    public BookDto findByIdDto(String id) {
-        return null;
-    }
-
-    @Override
-    public BookDto updateBook(String id, BookDto bookDto) {
-        return null;
-    }
-
-    @Override
     public BookEntity findByIdJPA(Long id) {
-       BookEntity bookFound = bookJPARepository.findById(id).orElse(null);
-       if(bookFound != null){
-           return bookFound;
-       }
-       return null;
+        BookEntity bookFound = bookJPARepository.findById(id).orElse(null);
+        if(bookFound != null){
+            return bookFound;
+        }
+        return null;
     }
 
     @Override
-    public BookDto findByIdDtoJPA(Long id) {
-        BookEntity bookFound = findByIdJPA(id);
+    public BookDto findByIdDto(String id) {
+        BookEntity bookFound = findByIdJPA(Long.valueOf(id));
         if(bookFound != null){
             return this.toDto(bookFound);
         }
@@ -78,8 +70,8 @@ public class BookJPAService implements BookService {
     }
 
     @Override
-    public BookDto updateBookJPA(Long id, BookDto bookDto) {
-        BookEntity bookFound = findByIdJPA(id);
+    public BookDto updateBook(String id, BookDto bookDto) {
+        BookEntity bookFound = findByIdJPA(Long.valueOf(id));
         if(bookFound != null){
             bookFound.setTitle(bookDto.getTitle());
             bookFound.setDescription(bookDto.getDescription());
@@ -88,6 +80,23 @@ public class BookJPAService implements BookService {
             //bookFound.setIsbn(bookDto.getIsbn());
             bookFound.setAvailable(bookDto.isAvailable());
             bookJPARepository.save(bookFound);
+            return this.toDto(bookFound);
+        }
+        return null;
+    }
+
+    @Override
+    public List<BookDto> getBooks() {
+        return bookJPARepository.findAll().stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+    @Override
+    public BookDto deleteBook(String id) {
+        BookEntity bookFound = findByIdJPA(Long.valueOf(id));
+        if(bookFound != null){
+            bookJPARepository.delete(bookFound);
             return this.toDto(bookFound);
         }
         return null;

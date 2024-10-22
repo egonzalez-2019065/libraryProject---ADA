@@ -8,6 +8,7 @@ import com.alexandergonzalez.libraryProject.repositories.book.BookMongoRepositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
 
 @Service("mongoBookService")
@@ -47,24 +48,10 @@ public class BookMongoService implements BookService {
     @Override
     public BookDocument findById(String id) {
         BookDocument bookFound = mongoRepository.findById(id).orElse(null);
+        System.out.println(bookFound);
         if(bookFound != null){
            return bookFound;
         }
-        return null;
-    }
-
-    @Override
-    public BookEntity findByIdJPA(Long id) {
-        return null;
-    }
-
-    @Override
-    public BookDto findByIdDtoJPA(Long id) {
-        return null;
-    }
-
-    @Override
-    public BookDto updateBookJPA(Long id, BookDto bookDto) {
         return null;
     }
 
@@ -80,8 +67,8 @@ public class BookMongoService implements BookService {
     @Override
     public BookDto updateBook(String id, BookDto bookDto) {
         BookDocument bookFound = findById(id);
-        if(bookFound != null){
-
+        System.out.println(bookDto);
+        if(bookFound.getId() != null){
             bookFound.setTitle(bookDto.getTitle());
             bookFound.setDescription(bookDto.getDescription());
             bookFound.setAuthor(bookDto.getAuthor());
@@ -91,6 +78,28 @@ public class BookMongoService implements BookService {
             mongoRepository.save(bookFound);
             return this.toDto(bookFound);
         }
+        return null;
+    }
+
+    @Override
+    public List<BookDto> getBooks() {
+        return mongoRepository.findAll().stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+    @Override
+    public BookDto deleteBook(String id) {
+        BookDocument bookFound = findById(id);
+        if(bookFound != null){
+            mongoRepository.delete(bookFound);
+            return this.toDto(bookFound);
+        }
+        return null;
+    }
+
+    @Override
+    public BookEntity findByIdJPA(Long id) {
         return null;
     }
 
