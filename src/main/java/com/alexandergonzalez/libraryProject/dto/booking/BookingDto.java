@@ -19,29 +19,29 @@ public class BookingDto {
     private Long userIdJPA;
     private Long bookIdJPA;
     private LocalDateTime bookingDate;
-    private LocalDateTime returnDate;
+    private LocalDateTime firstNotification;
 
-    public BookingDto(String id, String userId, String bookId, LocalDateTime bookingDate, LocalDateTime returnDate) {
+    public BookingDto(String id, String userId, String bookId, LocalDateTime bookingDate, LocalDateTime firstNotification) {
         this.id = id;
         this.userId = userId;
         this.bookId = bookId;
         this.bookingDate = bookingDate;
-        this.returnDate = returnDate;
+        this.firstNotification = firstNotification;
     }
 
-    public BookingDto(Long idJPA, Long userIdJPA, Long bookIdJPA, LocalDateTime bookingDate, LocalDateTime returnDate) {
+    public BookingDto(Long idJPA, Long userIdJPA, Long bookIdJPA, LocalDateTime bookingDate, LocalDateTime firstNotification) {
         this.idJPA = idJPA;
         this.userIdJPA = userIdJPA;
         this.bookIdJPA = bookIdJPA;
         this.bookingDate = bookingDate;
-        this.returnDate = returnDate;
+        this.firstNotification = firstNotification;
     }
 
-    public BookingDto(Long idJPA, String userId, String bookId, LocalDateTime bookingDate, LocalDateTime returnDate) {
+    public BookingDto(Long idJPA, String userId, String bookId, LocalDateTime bookingDate, LocalDateTime firstNotification) {
         this.idJPA = idJPA;
         this.userId = userId;
         this.bookId = bookId;
         this.bookingDate = bookingDate;
-        this.returnDate = returnDate;
+        this.firstNotification = firstNotification;
     }
 }
