@@ -42,7 +42,8 @@ public class LoanJPAService implements LoanService {
                 loanEntity.getUserEntity().getId(),
                 loanEntity.getBookEntity().getId(),
                 loanEntity.getLoanedAt(),
-                loanEntity.getReturnDate()
+                loanEntity.getReturnDate(),
+                loanEntity.getStatus()
         );
     }
 
@@ -53,7 +54,8 @@ public class LoanJPAService implements LoanService {
                 loanEntity.getUserEntity().getName(),
                 loanEntity.getBookEntity().getTitle(),
                 loanEntity.getLoanedAt(),
-                loanEntity.getReturnDate()
+                loanEntity.getReturnDate(),
+                loanEntity.getStatus()
         );
     }
 

@@ -45,7 +45,8 @@ public class LoanMongoService implements LoanService {
                 loanDocument.getUserDocument().getId(),
                 loanDocument.getBookDocument().getId(),
                 loanDocument.getLoanDate(),
-                loanDocument.getReturnDate()
+                loanDocument.getReturnDate(),
+                loanDocument.isStatus()
         );
     }
 
@@ -56,7 +57,8 @@ public class LoanMongoService implements LoanService {
                 loanDocument.getUserDocument().getName(),
                 loanDocument.getBookDocument().getTitle(),
                 loanDocument.getLoanDate(),
-                loanDocument.getReturnDate()
+                loanDocument.getReturnDate(),
+                loanDocument.isStatus()
         );
     }
 
