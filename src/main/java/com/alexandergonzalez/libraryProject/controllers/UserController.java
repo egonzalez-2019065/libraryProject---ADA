@@ -4,9 +4,12 @@ import com.alexandergonzalez.libraryProject.dto.RoleDto;
 import com.alexandergonzalez.libraryProject.dto.user.UserDto;
 import com.alexandergonzalez.libraryProject.factory.user.UserFactory;
 import com.alexandergonzalez.libraryProject.factory.user.UserService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,9 +25,9 @@ public class UserController {
     @Autowired
     public UserController(UserFactory userFactory) {
         this.userFactory = userFactory;
-        loadSampleUsers();
     }
 
+    @PostConstruct
     public void loadSampleUsers() {
         UserService userService = userFactory.getUserService();
         UserDto found = userService.findByUsername("admin");
@@ -74,18 +77,18 @@ public class UserController {
         UserService userService = userFactory.getUserService();
         Map<String, Object> response = new HashMap<>();
 
-        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //String currentPrincipalName = authentication.getName();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         UserDto userFound = userService.findByIdDto(id);
         if(userFound != null){
-            //if(currentPrincipalName.equals(userFound.getUsername())){
+            if(currentPrincipalName.equals(userFound.getUsername())){
                 UserDto updatedUser = userService.updateUser(id, userDto);
                 response.put("Usuario actualizado", updatedUser);
                 return ResponseEntity.status(HttpStatus.OK).body(response);
-           // }else{
-                //response.put("message","NO puedes actualizar otro usuario que no sea el tuyo");
-                //return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-            //}
+            }else{
+                response.put("message","NO puedes actualizar otro usuario que no sea el tuyo");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
         }
         response.put("message", "El usuario que está buscando aún no existe");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
@@ -96,11 +99,11 @@ public class UserController {
         UserService userService = userFactory.getUserService();
         Map<String, String> response = new HashMap<>();
 
-        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //String currentPrincipalName = authentication.getName();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         UserDto userFound = userService.findByIdDto(id);
         if(userFound != null){
-            Boolean roleUpdated = userService.updateRole(id, newRole, "admin");
+            Boolean roleUpdated = userService.updateRole(id, newRole, currentPrincipalName);
             if(roleUpdated){
                 response.put("message", "Role actualizado correctamente");
                 return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -119,18 +122,18 @@ public class UserController {
         Map<String, Object> response = new HashMap<>();
 
 
-        //Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        //String currentPrincipalName = authentication.getName();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
         UserDto userFound = userService.findByIdDto(id);
         if(userFound != null){
-            //if(currentPrincipalName.equals(userFound.getUsername())){
+            if(currentPrincipalName.equals(userFound.getUsername())){
                 UserDto userDeleted = userService.deleteUser(id);
                 response.put("Usuario eliminado", userDeleted.getUsername());
                 return ResponseEntity.status(HttpStatus.OK).body(response);
-            //}else{
-                //response.put("message","NO puedes eliminar otro usuario que no sea el tuyo");
-                //return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
-            //}
+            }else{
+                response.put("message","NO puedes eliminar otro usuario que no sea el tuyo");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
         }
         response.put("message", "El usuario que está buscando aún no existe");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);

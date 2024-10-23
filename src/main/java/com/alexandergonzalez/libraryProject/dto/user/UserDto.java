@@ -1,5 +1,6 @@
 package com.alexandergonzalez.libraryProject.dto.user;
 
+import com.alexandergonzalez.libraryProject.utils.Role;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +24,7 @@ public class UserDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String whoUpdatedTo;
+    private Role role;
 
     public UserDto(long idEntity, String name, String lastname, String username, LocalDateTime createdAt, LocalDateTime updatedAt, String whoUpdatedTo) {
         this.idEntity = idEntity;
@@ -50,4 +52,12 @@ public class UserDto {
         this.username = username;
         this.password = password;
     }
+
+    public UserDto(String name, String lastname, String username, LocalDateTime updatedAt) {
+        this.name = name;
+        this.lastname = lastname;
+        this.username = username;
+        this.updatedAt = updatedAt;
+    }
+
 }
