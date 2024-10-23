@@ -24,7 +24,7 @@ public class BookingController {
     }
 
     @PostMapping
-    public Object saveBooking(@RequestBody BookingDto bookingDto){
+    public ResponseEntity<Object> saveBooking(@RequestBody BookingDto bookingDto){
         BookingService bookingService = bookingFactory.getBookingService();
         HashMap<String, Object> response = new HashMap<>();
         BookingDto bookingToSave = bookingService.saveBooking(bookingDto);
