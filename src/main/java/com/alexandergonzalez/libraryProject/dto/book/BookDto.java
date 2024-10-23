@@ -35,4 +35,12 @@ public class BookDto {
         this.category = category;
         this.available = available;
     }
+
+    public BookDto(String title, String author, String description, String category, String isbn) {
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.category = category;
+        this.isbn = isbn;
+    }
 }
