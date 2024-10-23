@@ -56,105 +56,145 @@ public class AuthControllerTest {
 
     @Test
     void loginSuccess() {
-        // Arrange
+        // Preparamos los datos de entrada: un usuario con su nombre de usuario y contraseña.
         LoginDto user = new LoginDto("usernametest", "passwordtest");
+
+        // Definimos el resultado esperado de la autenticación.
         AuthDto expectedAuth = new AuthDto("123444");
+
+        // Configuramos el comportamiento del servicio para que devuelva el resultado esperado al realizar login.
         when(authService.login(user)).thenReturn(expectedAuth);
 
-        // Act
+        // Llamamos al método de login del controlador.
         ResponseEntity<AuthDto> response = authController.login(user);
 
-        // Assert
+        // Comprobamos que la respuesta sea exitosa y que contenga el resultado esperado.
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(expectedAuth, response.getBody());
+
+        // Verificamos que el servicio de autenticación fue llamado con los datos correctos.
         verify(authService).login(user);
     }
 
     @Test
     void registerSuccess() {
-        // Arrange
+        // Preparamos los datos para el registro de un nuevo usuario.
         RegisterDto registerRequest = new RegisterDto("User", "Test", "usertest", "password");
+
+        // Definimos el objeto que representa al usuario registrado, con un hash para la contraseña.
         RegisterDto userRegistered = new RegisterDto("User", "Test", "usertest", "hashedPassword", Role.ADMIN, LocalDateTime.now());
+
+        // Configuramos el servicio para que devuelva el usuario registrado al realizar el registro.
         when(authService.register(registerRequest)).thenReturn(userRegistered);
 
-        // Act
+        // Llamamos al método de registro del controlador.
         ResponseEntity<RegisterDto> response = authController.register(registerRequest);
 
-        // Assert
+        // Comprobamos que la respuesta sea exitosa y que contenga los datos del usuario registrado.
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(userRegistered, response.getBody());
+
+        // Verificamos que el servicio de registro fue llamado con los datos correctos.
         verify(authService).register(registerRequest);
     }
 
     @Test
     void updatePasswordSuccess() {
-        // Arrange
+        // Preparamos el contexto de seguridad para simular un usuario autenticado que va a actualizar su contraseña.
         setupSecurityContext("userupdate");
         String id = "1233";
+
+        // Preparamos los datos para la actualización de la contraseña.
         PasswordDto passwordDto = new PasswordDto("oldpasswordtest", "newpasswordtest");
+
+        // Creamos un objeto de usuario con la contraseña actual.
         UserDto userDto = new UserDto("User", "Test", "userupdate", "oldpasswordtest");
 
+        // Configuramos el servicio para que devuelva el usuario correspondiente al ID dado.
         when(authService.findById(id)).thenReturn(userDto);
+
+        // Configuramos el servicio para que indique que la actualización de la contraseña fue exitosa.
         when(authService.updatePassword(id, passwordDto)).thenReturn(true);
 
-        // Act
+        // Llamamos al método del controlador que intenta actualizar la contraseña.
         ResponseEntity<Object> response = authController.updatePassword(id, passwordDto);
 
-        // Assert
+        // Comprobamos que la respuesta sea exitosa y que el mensaje de éxito esté presente.
         assertEquals(HttpStatus.OK, response.getStatusCode());
         Map<String, String> responseBody = (Map<String, String>) response.getBody();
         assertNotNull(responseBody);
         assertEquals("Contraseña actualizada correctamente", responseBody.get("message"));
+
+        // Verificamos que el servicio de actualización de contraseña fue llamado con los datos correctos.
         verify(authService).updatePassword(id, passwordDto);
 
+        // Limpiamos el contexto de seguridad después de la prueba.
         SecurityContextHolder.clearContext();
     }
 
     @Test
     void updatePasswordError() {
-        // Arrange
+        // Preparamos el contexto de seguridad para simular un usuario autenticado que va a actualizar su contraseña.
         setupSecurityContext("userupdate");
         String id = "1233";
+
+        // Preparamos los datos para la actualización de la contraseña.
         PasswordDto passwordDto = new PasswordDto("oldpasswordtest", "newpasswordtest");
+
+        // Creamos un objeto de usuario con una contraseña diferente a la actual.
         UserDto userDto = new UserDto("User", "Test", "userupdate", "password123");
 
+        // Configuramos el servicio para que devuelva el usuario correspondiente al ID dado.
         when(authService.findById(id)).thenReturn(userDto);
+
+        // Configuramos el servicio para que indique que la actualización de la contraseña falló.
         when(authService.updatePassword(id, passwordDto)).thenReturn(false);
 
-        // Act
+        // Llamamos al método del controlador que intenta actualizar la contraseña.
         ResponseEntity<Object> response = authController.updatePassword(id, passwordDto);
 
-        // Assert
+        // Comprobamos que la respuesta sea un error y que contenga el mensaje correspondiente.
         assertEquals(HttpStatus.BAD_GATEWAY, response.getStatusCode());
         Map<String, String> responseBody = (Map<String, String>) response.getBody();
         assertNotNull(responseBody);
         assertEquals("Las contraseñas no coinciden", responseBody.get("message"));
+
+        // Verificamos que el servicio de actualización de contraseña fue llamado con los datos correctos.
         verify(authService).updatePassword(id, passwordDto);
 
+        // Limpiamos el contexto de seguridad después de la prueba.
         SecurityContextHolder.clearContext();
     }
 
     @Test
     void updatePasswordUnauthorized() {
-        // Arrange
+        // Preparamos el contexto de seguridad para simular un usuario que no tiene permiso para actualizar la contraseña.
         setupSecurityContext("admin");
         String id = "1233";
+
+        // Preparamos los datos para la actualización de la contraseña.
         PasswordDto passwordDto = new PasswordDto("oldpasswordtest", "newpasswordtest");
+
+        // Creamos un objeto de usuario con la contraseña actual.
         UserDto userDto = new UserDto("User", "Test", "userupdate", "oldpasswordtest");
 
+        // Configuramos el servicio para que devuelva el usuario correspondiente al ID dado.
         when(authService.findById(id)).thenReturn(userDto);
 
-        // Act
+        // Llamamos al método del controlador que intenta actualizar la contraseña.
         ResponseEntity<Object> response = authController.updatePassword(id, passwordDto);
 
-        // Assert
+        // Comprobamos que la respuesta sea un error de autorización y que contenga el mensaje correspondiente.
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
         Map<String, String> responseBody = (Map<String, String>) response.getBody();
         assertNotNull(responseBody);
         assertEquals("NO puedes actualizar otro usuario que no sea el tuyo", responseBody.get("message"));
+
+        // Verificamos que el servicio de actualización de contraseña no fue llamado.
         verify(authService, never()).updatePassword(any(), any());
 
+        // Limpiamos el contexto de seguridad después de la prueba.
         SecurityContextHolder.clearContext();
     }
 }
