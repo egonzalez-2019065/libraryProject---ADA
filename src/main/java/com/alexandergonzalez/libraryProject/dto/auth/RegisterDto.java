@@ -2,6 +2,7 @@ package com.alexandergonzalez.libraryProject.dto.auth;
 
 import com.alexandergonzalez.libraryProject.utils.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -9,6 +10,7 @@ import org.springframework.data.annotation.Id;
 import java.time.LocalDateTime;
 
 @Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RegisterDto {
     @Id
     private String id;
