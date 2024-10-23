@@ -27,8 +27,6 @@ public class LoanMongoService implements LoanService {
     private final BookMongoService bookMongoService;
 
 
-
-
     @Autowired
     public LoanMongoService(LoanMongoRepository loanMongoRepository, BookingMongoRepository bookingMongoRepository, UserMongoService userMongoService, BookMongoService bookMongoService) {
         this.loanMongoRepository = loanMongoRepository;
