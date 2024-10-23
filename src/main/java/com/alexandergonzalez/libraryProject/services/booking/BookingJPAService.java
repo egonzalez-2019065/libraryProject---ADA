@@ -9,6 +9,7 @@ import com.alexandergonzalez.libraryProject.models.user.UserEntity;
 import com.alexandergonzalez.libraryProject.repositories.booking.BookingJPARepository;
 import com.alexandergonzalez.libraryProject.services.book.BookJPAService;
 import com.alexandergonzalez.libraryProject.services.user.UserJPAService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class BookingJPAService implements BookingService {
     private final UserJPAService userJPAService;
     private final BookJPAService bookJPAService;
 
+    @Autowired
     public BookingJPAService(BookingJPARepository bookingJPARepository, UserJPAService userJPAService, BookJPAService bookJPAService) {
         this.bookingJPARepository = bookingJPARepository;
         this.userJPAService = userJPAService;
