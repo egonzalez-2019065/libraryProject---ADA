@@ -1,5 +1,6 @@
 package com.alexandergonzalez.libraryProject.services.user;
 
+import com.alexandergonzalez.libraryProject.dto.RoleDto;
 import com.alexandergonzalez.libraryProject.dto.user.UserDto;
 import com.alexandergonzalez.libraryProject.factory.user.UserService;
 import com.alexandergonzalez.libraryProject.models.user.UserDocument;
@@ -9,6 +10,9 @@ import com.alexandergonzalez.libraryProject.utils.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service("mongoUserService")
 public class UserMongoService implements UserService {
@@ -27,7 +31,8 @@ public class UserMongoService implements UserService {
                 user.getLastname(),
                 user.getUsername(),
                 user.getCreatedAt(),
-                user.getUpdatedAt()
+                user.getUpdatedAt(),
+                user.getWhoUpdatedTo()
         );
     }
 
@@ -59,6 +64,62 @@ public class UserMongoService implements UserService {
             return this.toDto(userFound);
         }
         return null;
+    }
+
+
+    @Override
+    public UserDto findByUsername(String name) {
+        UserDocument userFound = userMongoRepository.findByUsername(name).orElse(null);
+        if(userFound != null){
+            return this.toDto(userFound);
+        }
+        return null;
+    }
+
+    @Override
+    public UserDto updateUser(String id, UserDto userDto) {
+        UserDocument userFound = userMongoRepository.findById(id).orElse(null);
+        if(userFound != null){
+            userFound.setName(userDto.getName());
+            userFound.setLastname(userDto.getLastname());
+            userFound.setUsername(userDto.getUsername());
+            userFound.setUpdatedAt(LocalDateTime.now());
+            userMongoRepository.save(userFound);
+            return this.toDto(userFound);
+        }
+        return null;
+    }
+
+    @Override
+    public Boolean updateRole(String id, RoleDto roleDto, String userLogged) {
+        UserDocument userFound = userMongoRepository.findById(id).orElse(null);
+        if(userFound != null){
+            System.out.println(roleDto.getRole());
+            userFound.setRole(roleDto.getRole());
+            userFound.setUpdatedAt(LocalDateTime.now());
+            userFound.setWhoUpdatedTo(userLogged);
+            userMongoRepository.save(userFound);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public UserDto deleteUser(String id) {
+        UserDocument userFound = userMongoRepository.findById(id).orElse(null);
+        if(userFound != null){
+            UserDto userDtoDeleted = toDto(userFound);
+            userMongoRepository.deleteById(id);
+            return userDtoDeleted;
+        }
+        return null;
+    }
+
+    @Override
+    public List<UserDto> getUsers() {
+        return userMongoRepository.findAll().stream()
+                .map(this::toDto)
+                .toList();
     }
 
     @Override
