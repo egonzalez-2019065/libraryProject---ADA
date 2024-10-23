@@ -21,7 +21,7 @@ public class LoanDto {
     private Long bookIdJPA;
     private LocalDateTime loanDate;
     private LocalDateTime returnDate;
-    public boolean status;
+    private boolean status;
 
     public LoanDto(String id, String userId, String bookId, LocalDateTime loanDate, LocalDateTime returnDate, boolean status) {
         this.id = id;
@@ -49,4 +49,12 @@ public class LoanDto {
         this.returnDate = returnDate;
         this.status = status;
     }
+
+    public LoanDto(String userId, String bookId, LocalDateTime loanDate) {
+        this.userId = userId;
+        this.bookId = bookId;
+        this.loanDate = loanDate;
+    }
+
 }
+
