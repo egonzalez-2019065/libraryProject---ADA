@@ -44,4 +44,10 @@ public class BookingDto {
         this.bookingDate = bookingDate;
         this.status = status;
     }
+
+    public BookingDto(String userId, String bookId, LocalDateTime bookingDate) {
+        this.userId = userId;
+        this.bookId = bookId;
+        this.bookingDate = bookingDate;
+    }
 }
