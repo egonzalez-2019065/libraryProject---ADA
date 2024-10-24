@@ -1,6 +1,7 @@
 package com.alexandergonzalez.libraryProject.dto.auth;
 
 import com.alexandergonzalez.libraryProject.utils.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
@@ -22,7 +23,9 @@ public class RegisterDto {
     private String password;
     @JsonIgnore
     private Role role;
+
     @CreatedDate
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS", timezone = "America/Guatemala")
     private ZonedDateTime createdAt;
 
     public RegisterDto() {
