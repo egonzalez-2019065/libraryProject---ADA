@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -82,7 +83,7 @@ public class AuthControllerTest {
         RegisterDto registerRequest = new RegisterDto("User", "Test", "usertest", "password");
 
         // Definimos el objeto que representa al usuario registrado, con un hash para la contraseña.
-        RegisterDto userRegistered = new RegisterDto("User", "Test", "usertest", "hashedPassword", Role.ADMIN, LocalDateTime.now());
+        RegisterDto userRegistered = new RegisterDto("User", "Test", "usertest", "hashedPassword", Role.ADMIN, ZonedDateTime.now());
 
         // Configuramos el servicio para que devuelva el usuario registrado al realizar el registro.
         when(authService.register(registerRequest)).thenReturn(userRegistered);

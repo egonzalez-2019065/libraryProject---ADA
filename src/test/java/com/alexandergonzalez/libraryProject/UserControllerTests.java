@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -115,7 +116,7 @@ public class UserControllerTests {
         setupSecurityContext("userupdate");
 
         // Se prepara un usuario de prueba para actualizar
-        UserDto userDto = new UserDto("User", "Update", "userupdate", LocalDateTime.now());
+        UserDto userDto = new UserDto("User", "Update", "userupdate", ZonedDateTime.now());
         String id = "123";
 
         // Simulamos el comportamiento del servicio para encontrar y actualizar al usuario
@@ -142,7 +143,7 @@ public class UserControllerTests {
         setupSecurityContext("admin");
 
         // Se prepara un usuario y el rol a actualizar
-        UserDto userDto = new UserDto("User", "Update", "userupdate", LocalDateTime.now());
+        UserDto userDto = new UserDto("User", "Update", "userupdate", ZonedDateTime.now());
         RoleDto roleDto = new RoleDto(Role.ADMIN);
         String id = "123";
 
@@ -170,7 +171,7 @@ public class UserControllerTests {
         setupSecurityContext("userdeleted");
 
         // Se prepara un usuario de prueba para eliminar
-        UserDto userDto = new UserDto("User", "Update", "userdeleted", LocalDateTime.now());
+        UserDto userDto = new UserDto("User", "Update", "userdeleted", ZonedDateTime.now());
         String id = "123";
 
         // Simulamos el comportamiento del servicio para encontrar y eliminar al usuario
