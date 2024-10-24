@@ -5,6 +5,7 @@ import com.alexandergonzalez.libraryProject.dto.user.UserDto;
 import com.alexandergonzalez.libraryProject.factory.user.UserFactory;
 import com.alexandergonzalez.libraryProject.factory.user.UserService;
 import jakarta.annotation.PostConstruct;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,6 +38,7 @@ public class UserController {
         }
     }
 
+    @RolesAllowed("ADMIN")
     @PostMapping
     public ResponseEntity<Object> saveUser(@RequestBody UserDto userDto) {
         UserService userService = userFactory.getUserService();
@@ -94,6 +96,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
+
+    @RolesAllowed("ADMIN")
     @PutMapping("/role/{id}")
     public ResponseEntity<Object> updateRole(@PathVariable String id, @RequestBody RoleDto newRole) {
         UserService userService = userFactory.getUserService();

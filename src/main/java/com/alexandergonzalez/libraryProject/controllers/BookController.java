@@ -3,6 +3,7 @@ package com.alexandergonzalez.libraryProject.controllers;
 import com.alexandergonzalez.libraryProject.dto.book.BookDto;
 import com.alexandergonzalez.libraryProject.factory.bookFactory.BookFactory;
 import com.alexandergonzalez.libraryProject.factory.bookFactory.BookService;
+import jakarta.annotation.security.RolesAllowed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public class BookController {
         this.bookFactory = bookFactory;
     }
 
+    @RolesAllowed("ADMIN")
     @PostMapping
     public ResponseEntity<Object> saveBook(@RequestBody BookDto bookDto){
         BookService bookService = bookFactory.getBookService();
@@ -30,6 +32,7 @@ public class BookController {
         response.put("Libro creado correctamente", savedBook);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
 
     @GetMapping()
     public ResponseEntity<Object> getBooks(){
@@ -53,6 +56,8 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
+
+    @RolesAllowed("ADMIN")
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateBook(@PathVariable("id") String id, @RequestBody BookDto bookDto){
         BookService bookService = bookFactory.getBookService();
@@ -67,6 +72,7 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 
+    @RolesAllowed("ADMIN")
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteBook(@PathVariable("id") String id){
         BookService bookService = bookFactory.getBookService();
