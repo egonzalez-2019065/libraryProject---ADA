@@ -31,7 +31,7 @@ public class LoanDocument {
     private ZonedDateTime loanDate;
 
     @LastModifiedDate
-    private LocalDateTime returnDate;
+    private ZonedDateTime returnDate;
 
     private boolean status;
 
