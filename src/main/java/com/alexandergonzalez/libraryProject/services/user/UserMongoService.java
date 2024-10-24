@@ -44,7 +44,7 @@ public class UserMongoService implements UserService {
         user.setLastname(userDto.getLastname());
         user.setUsername(userDto.getUsername());
         user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
-        user.setRole(Role.USER);
+        user.setRole(Role.ADMIN);
         userMongoRepository.save(user);
         return this.toDto(user);
     }

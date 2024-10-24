@@ -45,7 +45,7 @@ public class UserJPAService implements UserService {
         user.setLastname(userDto.getLastname());
         user.setUsername(userDto.getUsername());
         user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
-        user.setRole(Role.USER);
+        user.setRole(Role.ADMIN);
         userJPARepository.save(user);
         return this.toDto(user);
     }
