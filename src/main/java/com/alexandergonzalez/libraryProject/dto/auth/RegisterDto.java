@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -22,13 +23,13 @@ public class RegisterDto {
     @JsonIgnore
     private Role role;
     @CreatedDate
-    private LocalDateTime createdAt;
+    private ZonedDateTime createdAt;
 
     public RegisterDto() {
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = ZonedDateTime.now();
     }
 
-    public RegisterDto(String name, String lastname, String username, String password, Role role, LocalDateTime createdAt) {
+    public RegisterDto(String name, String lastname, String username, String password, Role role, ZonedDateTime createdAt) {
         this.name = name;
         this.lastname = lastname;
         this.username = username;

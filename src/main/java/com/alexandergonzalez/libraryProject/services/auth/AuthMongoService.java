@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Service("mongoAuthService")
 public class AuthMongoService implements AuthService {
@@ -97,7 +98,7 @@ public class AuthMongoService implements AuthService {
             System.out.print(matchPassword);
             if (matchPassword) {
                 userFound.setPassword(new BCryptPasswordEncoder().encode(passwordDto.getNewPassword()));
-                userFound.setUpdatedAt(LocalDateTime.now());
+                userFound.setUpdatedAt(ZonedDateTime.now());
                 authRepository.save(userFound);
                 return true;
             }

@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Service("jpaAuthService")
 public class AuthJPAService implements AuthService {
@@ -95,7 +96,7 @@ public class AuthJPAService implements AuthService {
             System.out.print(matchPassword);
             if(matchPassword){
                 userFound.setPassword(new BCryptPasswordEncoder().encode(passwordDto.getNewPassword()));
-                userFound.setUpdatedAt(LocalDateTime.now());
+                userFound.setUpdatedAt(ZonedDateTime.now());
                 authJPARepository.save(userFound);
                 return true;
             }
