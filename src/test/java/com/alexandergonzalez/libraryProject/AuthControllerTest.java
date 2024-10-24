@@ -89,15 +89,22 @@ public class AuthControllerTest {
         when(authService.register(registerRequest)).thenReturn(userRegistered);
 
         // Llamamos al método de registro del controlador.
-        ResponseEntity<RegisterDto> response = authController.register(registerRequest);
+        ResponseEntity<Object> response = authController.register(registerRequest);
+        Map<String, Object> responseBody = (Map<String, Object>) response.getBody();
 
-        // Comprobamos que la respuesta sea exitosa y que contenga los datos del usuario registrado.
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertNotNull(response.getBody());
-        assertEquals(userRegistered, response.getBody());
+        // Comprobamos que la respuesta sea exitosa.
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(responseBody);
+
+        // Extraemos el usuario registrado del cuerpo de la respuesta.
+        RegisterDto returnedUser = (RegisterDto) responseBody.get("Usuario registrado correctamente");
+
+        // Comparamos que el usuario registrado sea el esperado.
+        assertEquals(userRegistered, returnedUser);
 
         // Verificamos que el servicio de registro fue llamado con los datos correctos.
         verify(authService).register(registerRequest);
+
     }
 
     @Test

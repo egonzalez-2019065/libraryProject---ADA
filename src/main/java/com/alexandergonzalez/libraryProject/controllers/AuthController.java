@@ -37,10 +37,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<RegisterDto> register(@RequestBody RegisterDto dto){
+    public ResponseEntity<Object> register(@RequestBody RegisterDto dto){
         AuthService authService = authFactory.getAuthService();
+        Map<String, Object> response = new HashMap<>();
         RegisterDto userDto = authService.register(dto);
-        return ResponseEntity.ok(userDto);
+        if(userDto != null){
+            response.put("Usuario registrado correctamente", userDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        }
+        response.put("Usuario registrado correctamente", "Este nombre de usuario ya existe");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @PutMapping("{id}")

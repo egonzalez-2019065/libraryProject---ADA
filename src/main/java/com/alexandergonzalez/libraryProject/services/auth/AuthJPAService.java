@@ -50,23 +50,27 @@ public class AuthJPAService implements AuthService {
 
     @Override
     public RegisterDto register(final RegisterDto request) {
-        UserEntity user = new UserEntity();
-        user.setName(request.getName());
-        user.setLastname(request.getLastname());
-        user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(Role.USER);
+        UserEntity userFound = authJPARepository.findByUsername(request.getUsername()).orElse(null);
+        if(userFound == null){
+            UserEntity user = new UserEntity();
+            user.setName(request.getName());
+            user.setLastname(request.getLastname());
+            user.setUsername(request.getUsername());
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+            user.setRole(Role.USER);
 
-        authJPARepository.save(user);
-        // Mapear los datos del usuario a un UserDto y devolverlo
-        RegisterDto userDto = new RegisterDto();
-        userDto.setId(String.valueOf(user.getId()));
-        userDto.setName(user.getName());
-        userDto.setLastname(user.getLastname());
-        userDto.setUsername(user.getUsername());
-        userDto.setCreatedAt(user.getCreatedAt());
+            authJPARepository.save(user);
+            // Mapear los datos del usuario a un UserDto y devolverlo
+            RegisterDto userDto = new RegisterDto();
+            userDto.setId(String.valueOf(user.getId()));
+            userDto.setName(user.getName());
+            userDto.setLastname(user.getLastname());
+            userDto.setUsername(user.getUsername());
+            userDto.setCreatedAt(user.getCreatedAt());
 
-        return userDto;
+            return userDto;
+        }
+        return null;
     }
 
     @Override

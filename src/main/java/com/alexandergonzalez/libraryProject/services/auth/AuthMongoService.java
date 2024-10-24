@@ -50,23 +50,27 @@ public class AuthMongoService implements AuthService {
 
     @Override
     public RegisterDto register(final RegisterDto request) {
-        UserDocument user = new UserDocument();
-        user.setName(request.getName());
-        user.setLastname(request.getLastname());
-        user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setRole(Role.USER);
+        UserDocument userFound = authRepository.findByUsername(request.getUsername()).orElse(null);
+        if(userFound == null){
+            UserDocument user = new UserDocument();
+            user.setName(request.getName());
+            user.setLastname(request.getLastname());
+            user.setUsername(request.getUsername());
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+            user.setRole(Role.USER);
 
-        this.authRepository.save(user);
-        // Mapear los datos del usuario a un UserDto y devolverlo
-        RegisterDto userDto = new RegisterDto();
-        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setLastname(user.getLastname());
-        userDto.setUsername(user.getUsername());
-        userDto.setCreatedAt(user.getCreatedAt());
+            this.authRepository.save(user);
+            // Mapear los datos del usuario a un UserDto y devolverlo
+            RegisterDto userDto = new RegisterDto();
+            userDto.setId(user.getId());
+            userDto.setName(user.getName());
+            userDto.setLastname(user.getLastname());
+            userDto.setUsername(user.getUsername());
+            userDto.setCreatedAt(user.getCreatedAt());
 
-        return userDto;
+            return userDto;
+        }
+        return  null;
     }
 
 

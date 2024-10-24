@@ -39,14 +39,18 @@ public class UserMongoService implements UserService {
 
     @Override
     public UserDto saveUser(UserDto userDto) {
-        UserDocument user = new UserDocument();
-        user.setName(userDto.getName());
-        user.setLastname(userDto.getLastname());
-        user.setUsername(userDto.getUsername());
-        user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
-        user.setRole(Role.ADMIN);
-        userMongoRepository.save(user);
-        return this.toDto(user);
+        UserDocument userFound = userMongoRepository.findByUsername(userDto.getUsername()).orElse(null);
+        if(userFound == null){
+            UserDocument user = new UserDocument();
+            user.setName(userDto.getName());
+            user.setLastname(userDto.getLastname());
+            user.setUsername(userDto.getUsername());
+            user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+            user.setRole(Role.ADMIN);
+            userMongoRepository.save(user);
+            return this.toDto(user);
+        }
+        return null;
     }
 
     @Override

@@ -44,9 +44,12 @@ public class UserController {
         UserService userService = userFactory.getUserService();
         Map<String, Object> response = new HashMap<>();
         UserDto savedUser = userService.saveUser(userDto);
-        System.out.println(savedUser);
-        response.put("Usuario guardado correctamente", savedUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        if(savedUser != null){
+            response.put("Usuario guardado correctamente", savedUser);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        }
+        response.put("message", "Este nombre de usuario ya existe");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     // Endpoint que devolverá todos los usuarios exisntentes en la base de datos

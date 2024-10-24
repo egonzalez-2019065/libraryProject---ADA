@@ -40,14 +40,18 @@ public class UserJPAService implements UserService {
     // Declaración del método que guardará en la base de datos un usuario nuevo
     @Override
     public UserDto saveUser(UserDto userDto){
-        UserEntity user = new UserEntity();
-        user.setName(userDto.getName());
-        user.setLastname(userDto.getLastname());
-        user.setUsername(userDto.getUsername());
-        user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
-        user.setRole(Role.ADMIN);
-        userJPARepository.save(user);
-        return this.toDto(user);
+        UserEntity userFound = userJPARepository.findByUsername(userDto.getUsername()).orElse(null);
+        if(userFound == null){
+            UserEntity user = new UserEntity();
+            user.setName(userDto.getName());
+            user.setLastname(userDto.getLastname());
+            user.setUsername(userDto.getUsername());
+            user.setPassword(new BCryptPasswordEncoder().encode(userDto.getPassword()));
+            user.setRole(Role.ADMIN);
+            userJPARepository.save(user);
+            return this.toDto(user);
+        }
+        return null;
     }
 
     @Override
