@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @RolesAllowed("ADMIN")
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<Object> saveUser(@RequestBody UserDto userDto) {
         UserService userService = userFactory.getUserService();
         Map<String, Object> response = new HashMap<>();
@@ -50,7 +50,7 @@ public class UserController {
     }
 
     // Endpoint que devolverá todos los usuarios exisntentes en la base de datos
-    @GetMapping
+    @GetMapping("/")
     public ResponseEntity<Object> getAllUsers() {
         UserService userService = userFactory.getUserService();
         List<UserDto> users = userService.getUsers();
