@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Data
 @Entity
@@ -28,13 +29,13 @@ public class LoanEntity {
     private BookEntity bookEntity;
 
     @CreatedDate
-    private LocalDateTime loanedAt;
+    private ZonedDateTime loanedAt;
 
-    private LocalDateTime returnDate;
+    private ZonedDateTime returnDate;
 
     private Boolean status = true;
 
     public LoanEntity() {
-        this.loanedAt = LocalDateTime.now();
+        this.loanedAt = ZonedDateTime.now();
     }
 }

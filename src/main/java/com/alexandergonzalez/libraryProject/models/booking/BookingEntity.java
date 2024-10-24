@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Data
 @Entity
@@ -28,11 +29,11 @@ public class BookingEntity {
     private BookEntity bookEntity;
 
     @CreatedDate
-    private LocalDateTime bookingAt;
+    private ZonedDateTime bookingAt;
 
     private Boolean status = true;
 
     public BookingEntity() {
-        this.bookingAt = LocalDateTime.now();
+        this.bookingAt = ZonedDateTime.now();
     }
 }

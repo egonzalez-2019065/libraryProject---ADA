@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Data
 @Document(collection = "bookings")
@@ -25,12 +26,12 @@ public class BookingDocument {
     private BookDocument bookDocument;
 
     @CreatedDate
-    private LocalDateTime bookingDate;
+    private ZonedDateTime bookingDate;
 
     private boolean status;
 
     public BookingDocument() {
-        this.bookingDate = LocalDateTime.now();
+        this.bookingDate = ZonedDateTime.now();
         this.status = true;
     }
 }

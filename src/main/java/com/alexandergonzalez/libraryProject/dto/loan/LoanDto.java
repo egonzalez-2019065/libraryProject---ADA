@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @NoArgsConstructor
 @Data
@@ -22,13 +23,15 @@ public class LoanDto {
     private Long bookIdJPA;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS", timezone = "America/Guatemala")
-    private LocalDateTime loanDate;
+    private ZonedDateTime loanDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS", timezone = "America/Guatemala")
-    private LocalDateTime returnDate;
+    private ZonedDateTime returnDate;
+
     private boolean status;
 
-    public LoanDto(String id, String userId, String bookId, LocalDateTime loanDate, LocalDateTime returnDate, boolean status) {
+    // Constructores con ZonedDateTime
+    public LoanDto(String id, String userId, String bookId, ZonedDateTime loanDate, ZonedDateTime returnDate, boolean status) {
         this.id = id;
         this.userId = userId;
         this.bookId = bookId;
@@ -37,7 +40,7 @@ public class LoanDto {
         this.status = status;
     }
 
-    public LoanDto(Long idJPA, Long userIdJPA, Long bookIdJPA, LocalDateTime loanDate, LocalDateTime returnDate, boolean status) {
+    public LoanDto(Long idJPA, Long userIdJPA, Long bookIdJPA, ZonedDateTime loanDate, ZonedDateTime returnDate, boolean status) {
         this.idJPA = idJPA;
         this.userIdJPA = userIdJPA;
         this.bookIdJPA = bookIdJPA;
@@ -46,7 +49,7 @@ public class LoanDto {
         this.status = status;
     }
 
-    public LoanDto(Long idJPA, String userId, String bookId, LocalDateTime loanDate, LocalDateTime returnDate, boolean status) {
+    public LoanDto(Long idJPA, String userId, String bookId, ZonedDateTime loanDate, ZonedDateTime returnDate, boolean status) {
         this.idJPA = idJPA;
         this.userId = userId;
         this.bookId = bookId;
@@ -55,7 +58,7 @@ public class LoanDto {
         this.status = status;
     }
 
-    public LoanDto(String userId, String bookId, LocalDateTime loanDate) {
+    public LoanDto(String userId, String bookId, ZonedDateTime loanDate) {
         this.userId = userId;
         this.bookId = bookId;
         this.loanDate = loanDate;

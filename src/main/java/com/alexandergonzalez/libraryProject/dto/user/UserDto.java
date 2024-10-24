@@ -25,8 +25,10 @@ public class UserDto {
     private String username;
     private String password;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS", timezone = "America/Guatemala")
     private ZonedDateTime createdAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS", timezone = "America/Guatemala")
     private ZonedDateTime updatedAt;
 
     private String whoUpdatedTo;

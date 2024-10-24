@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Data
 @AllArgsConstructor
@@ -27,7 +28,7 @@ public class LoanDocument {
     private BookDocument bookDocument;
 
     @CreatedDate
-    private LocalDateTime loanDate;
+    private ZonedDateTime loanDate;
 
     @LastModifiedDate
     private LocalDateTime returnDate;
@@ -35,7 +36,7 @@ public class LoanDocument {
     private boolean status;
 
     public LoanDocument() {
-        this.loanDate = LocalDateTime.now();
+        this.loanDate = ZonedDateTime.now();
         this.status = true;
     }
 }

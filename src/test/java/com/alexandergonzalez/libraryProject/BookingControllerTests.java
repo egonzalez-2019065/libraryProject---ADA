@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +42,7 @@ public class BookingControllerTests {
     @Test
     void saveBooking() {
         // Se prepara una reserva de prueba
-        BookingDto bookingDto = new BookingDto("user123", "123", LocalDateTime.now());
+        BookingDto bookingDto = new BookingDto("user123", "123", ZonedDateTime.now());
 
         // Simulamos el comportamiento del servicio para guardar la reserva
         when(bookingService.saveBooking(bookingDto)).thenReturn(bookingDto);
@@ -60,7 +61,7 @@ public class BookingControllerTests {
     @Test
     void saveBookingAlreadyReserved() {
         // Se prepara una reserva de prueba
-        BookingDto bookingDto = new BookingDto("123", "user123", LocalDateTime.now());
+        BookingDto bookingDto = new BookingDto("123", "user123", ZonedDateTime.now());
 
         // Simulamos el comportamiento del servicio para indicar que la reserva ya existe
         when(bookingService.saveBooking(bookingDto)).thenReturn(null);
@@ -80,8 +81,8 @@ public class BookingControllerTests {
     void getAllBookings() {
         // Se prepara una lista de reservas de prueba
         List<BookingDto> bookings = new ArrayList<>();
-        bookings.add(new BookingDto("123", "user123", LocalDateTime.now()));
-        bookings.add(new BookingDto("124", "user124", LocalDateTime.now()));
+        bookings.add(new BookingDto("123", "user123", ZonedDateTime.now()));
+        bookings.add(new BookingDto("124", "user124", ZonedDateTime.now()));
 
         // Simulamos el comportamiento del servicio para retornar las reservas
         when(bookingService.getBookings()).thenReturn(bookings);
@@ -102,7 +103,7 @@ public class BookingControllerTests {
         // Se prepara una lista de reservas de prueba para un usuario específico
         String userId = "user123";
         List<BookingDto> bookings = new ArrayList<>();
-        bookings.add(new BookingDto(userId, "book123", LocalDateTime.now()));
+        bookings.add(new BookingDto(userId, "book123", ZonedDateTime.now()));
 
         // Simulamos el comportamiento del servicio para retornar las reservas del usuario
         when(bookingService.findByUserId(userId)).thenReturn(bookings);

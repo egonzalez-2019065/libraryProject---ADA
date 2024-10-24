@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,8 +44,8 @@ public class LoanControllerTests {
     @Test
     void testSaveLoan_Success() {
         // Mock data
-        LoanDto loanDto = new LoanDto("456", "789", LocalDateTime.now());
-        LoanDto savedLoan = new LoanDto("456", "789", LocalDateTime.now());
+        LoanDto loanDto = new LoanDto("456", "789", ZonedDateTime.now());
+        LoanDto savedLoan = new LoanDto("456", "789", ZonedDateTime.now());
 
         // Configuramos el comportamiento esperado del servicio
         when(loanService.saveLoan(loanDto)).thenReturn(savedLoan);
@@ -64,7 +65,7 @@ public class LoanControllerTests {
     @Test
     void testSaveLoan_BadRequest() {
         // Mock data
-        LoanDto savedLoan = new LoanDto("456", "789", LocalDateTime.now());
+        LoanDto savedLoan = new LoanDto("456", "789", ZonedDateTime.now());
 
         // Configuramos el comportamiento esperado del servicio
         when(loanService.saveLoan(savedLoan)).thenReturn(null);
@@ -85,8 +86,8 @@ public class LoanControllerTests {
     void testGetAllLoans_Success() {
         // Mock data
         List<LoanDto> loanDtos = List.of(
-                new LoanDto("456", "789", LocalDateTime.now()),
-                new LoanDto("457", "789", LocalDateTime.now())
+                new LoanDto("456", "789", ZonedDateTime.now()),
+                new LoanDto("457", "789", ZonedDateTime.now())
         );
 
         // Configuramos el comportamiento esperado del servicio
@@ -108,7 +109,7 @@ public class LoanControllerTests {
     void testReturnBook_Success() {
         // Mock data
         String bookId = "789";
-        LoanDto returnedLoan = new LoanDto("456", "789", LocalDateTime.now());
+        LoanDto returnedLoan = new LoanDto("456", "789", ZonedDateTime.now());
 
         // Configuramos el comportamiento esperado del servicio
         when(loanService.returnBook(bookId)).thenReturn(returnedLoan);
@@ -150,8 +151,8 @@ public class LoanControllerTests {
         // Mock data
         String userId = "456";
         List<LoanDto> returnedLoans = List.of(
-                new LoanDto("456", "789", LocalDateTime.now()),
-                new LoanDto("457", "789", LocalDateTime.now())
+                new LoanDto("456", "789", ZonedDateTime.now()),
+                new LoanDto("457", "789", ZonedDateTime.now())
         );
 
         // Configuramos el comportamiento esperado del servicio

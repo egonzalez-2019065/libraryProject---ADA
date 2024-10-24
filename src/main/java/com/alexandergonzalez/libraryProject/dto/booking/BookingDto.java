@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @NoArgsConstructor
 @Data
@@ -21,10 +22,10 @@ public class BookingDto {
     private Long bookIdJPA;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS", timezone = "America/Guatemala")
-    private LocalDateTime bookingDate;
+    private ZonedDateTime bookingDate;
     private boolean status;
 
-    public BookingDto(String id, String userId, String bookId, LocalDateTime bookingDate, boolean status) {
+    public BookingDto(String id, String userId, String bookId, ZonedDateTime bookingDate, boolean status) {
         this.id = id;
         this.userId = userId;
         this.bookId = bookId;
@@ -32,7 +33,7 @@ public class BookingDto {
         this.status = status;
     }
 
-    public BookingDto(Long idJPA, Long userIdJPA, Long bookIdJPA, LocalDateTime bookingDate, boolean status) {
+    public BookingDto(Long idJPA, Long userIdJPA, Long bookIdJPA, ZonedDateTime bookingDate, boolean status) {
         this.idJPA = idJPA;
         this.userIdJPA = userIdJPA;
         this.bookIdJPA = bookIdJPA;
@@ -40,7 +41,7 @@ public class BookingDto {
         this.status = status;
     }
 
-    public BookingDto(Long idJPA, String userId, String bookId, LocalDateTime bookingDate, boolean status) {
+    public BookingDto(Long idJPA, String userId, String bookId, ZonedDateTime bookingDate, boolean status) {
         this.idJPA = idJPA;
         this.userId = userId;
         this.bookId = bookId;
@@ -48,7 +49,7 @@ public class BookingDto {
         this.status = status;
     }
 
-    public BookingDto(String userId, String bookId, LocalDateTime bookingDate) {
+    public BookingDto(String userId, String bookId, ZonedDateTime bookingDate) {
         this.userId = userId;
         this.bookId = bookId;
         this.bookingDate = bookingDate;
