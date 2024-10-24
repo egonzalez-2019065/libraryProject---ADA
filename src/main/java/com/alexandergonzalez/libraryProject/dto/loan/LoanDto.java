@@ -1,5 +1,6 @@
 package com.alexandergonzalez.libraryProject.dto.loan;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,7 +20,11 @@ public class LoanDto {
     private Long idJPA;
     private Long userIdJPA;
     private Long bookIdJPA;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS", timezone = "America/Guatemala")
     private LocalDateTime loanDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS", timezone = "America/Guatemala")
     private LocalDateTime returnDate;
     private boolean status;
 

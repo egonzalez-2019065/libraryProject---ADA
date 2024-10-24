@@ -1,6 +1,7 @@
 package com.alexandergonzalez.libraryProject.dto.user;
 
 import com.alexandergonzalez.libraryProject.utils.Role;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,11 @@ public class UserDto {
     private String lastname;
     private String username;
     private String password;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS", timezone = "America/Guatemala")
     private LocalDateTime createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS", timezone = "America/Guatemala")
     private LocalDateTime updatedAt;
     private String whoUpdatedTo;
     private Role role;

@@ -1,5 +1,6 @@
 package com.alexandergonzalez.libraryProject.dto.booking;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,8 @@ public class BookingDto {
     private Long idJPA;
     private Long userIdJPA;
     private Long bookIdJPA;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS", timezone = "America/Guatemala")
     private LocalDateTime bookingDate;
     private boolean status;
 
