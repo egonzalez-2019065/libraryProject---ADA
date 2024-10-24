@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Service("mongoUserService")
@@ -83,7 +84,7 @@ public class UserMongoService implements UserService {
             userFound.setName(userDto.getName());
             userFound.setLastname(userDto.getLastname());
             userFound.setUsername(userDto.getUsername());
-            userFound.setUpdatedAt(LocalDateTime.now());
+            userFound.setUpdatedAt(ZonedDateTime.now());
             userMongoRepository.save(userFound);
             return this.toDto(userFound);
         }
@@ -96,7 +97,7 @@ public class UserMongoService implements UserService {
         if(userFound != null){
             System.out.println(roleDto.getRole());
             userFound.setRole(roleDto.getRole());
-            userFound.setUpdatedAt(LocalDateTime.now());
+            userFound.setUpdatedAt(ZonedDateTime.now());
             userFound.setWhoUpdatedTo(userLogged);
             userMongoRepository.save(userFound);
             return true;

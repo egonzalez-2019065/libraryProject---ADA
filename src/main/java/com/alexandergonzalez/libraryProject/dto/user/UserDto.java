@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.Date;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,14 +26,16 @@ public class UserDto {
     private String password;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS", timezone = "America/Guatemala")
-    private LocalDateTime createdAt;
+    private ZonedDateTime createdAt;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS", timezone = "America/Guatemala")
-    private LocalDateTime updatedAt;
+    private ZonedDateTime updatedAt;
+
     private String whoUpdatedTo;
     private Role role;
 
-    public UserDto(long idEntity, String name, String lastname, String username, LocalDateTime createdAt, LocalDateTime updatedAt, String whoUpdatedTo) {
+    // Constructor con ZonedDateTime
+    public UserDto(long idEntity, String name, String lastname, String username, ZonedDateTime createdAt, ZonedDateTime updatedAt, String whoUpdatedTo) {
         this.idEntity = idEntity;
         this.name = name;
         this.lastname = lastname;
@@ -41,7 +45,7 @@ public class UserDto {
         this.whoUpdatedTo = whoUpdatedTo;
     }
 
-    public UserDto(String idDocument, String name, String lastname, String username, LocalDateTime createdAt, LocalDateTime updatedAt, String whoUpdatedTo) {
+    public UserDto(String idDocument, String name, String lastname, String username, ZonedDateTime createdAt, ZonedDateTime updatedAt, String whoUpdatedTo) {
         this.idDocument = idDocument;
         this.name = name;
         this.lastname = lastname;
@@ -58,7 +62,7 @@ public class UserDto {
         this.password = password;
     }
 
-    public UserDto(String name, String lastname, String username, LocalDateTime updatedAt) {
+    public UserDto(String name, String lastname, String username, ZonedDateTime updatedAt) {
         this.name = name;
         this.lastname = lastname;
         this.username = username;

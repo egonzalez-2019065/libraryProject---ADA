@@ -16,6 +16,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -33,14 +34,15 @@ public class UserDocument implements UserDetails {
     private Role role;
 
     @CreatedDate
-    private LocalDateTime createdAt;
+    
+    private ZonedDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime updatedAt;
+    private ZonedDateTime updatedAt;
     private String WhoUpdatedTo;
 
     public UserDocument() {
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = ZonedDateTime.now();
     }
 
 
